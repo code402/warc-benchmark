@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "${1:-}" == "prof" ]; then
+  java -agentpath:/home/cldellow/src/lightweight-java-profiler/build-64/liblagent.so -jar target/scala-2.12/code402-assembly-0.0.1.jar "$@"
+  ~/src/FlameGraph/stackcollapse-ljp.awk < ./traces.txt | ~/src/FlameGraph/flamegraph.pl > traces.svg
+else
+  java -jar target/scala-2.12/code402-assembly-0.0.1.jar "$@"
+fi

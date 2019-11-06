@@ -1,0 +1,8 @@
+#!/bin/bash
+set -euo pipefail
+
+class=${1:?must specify one of: Brics, Re2j, JDK}
+shift
+
+mvn clean install
+time java -cp "$(cat target/compile-classpath.txt)":target/warc-regex-1.0-SNAPSHOT.jar com.code402."$class" "$@"

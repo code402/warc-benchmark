@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+stream() {
+  source=${1:?must provide source}
+  if [[ "$source" == http://* ]] || [[ "$source" == https://* ]]; then
+    curl -s "$source"
+  else
+    cat "$source"
+  fi
+}
+
+source=${1:-http://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-30/segments/1563195523840.34/warc/CC-MAIN-20190715175205-20190715200159-00000.warc.gz}
+
+stream "$source" | zstdcat | awk -f search.awk
